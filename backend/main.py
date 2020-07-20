@@ -1,12 +1,22 @@
-from flask import Flask, render_template, Response
-
+from flask import Flask, render_template, Response, redirect, url_for
 from camera import VideoCamera
 
+# app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
+    return redirect(url_for('camera'))
+
+
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
+@app.route('/camera')
+def camera():
     return render_template('index.html')
 
 
@@ -24,6 +34,5 @@ def video_feed():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True)
-
-
+    # app.run(host='127.0.0.1', debug=True)
+    app.run()
