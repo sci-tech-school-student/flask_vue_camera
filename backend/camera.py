@@ -3,7 +3,7 @@ import numpy as np
 
 
 class VideoCamera(object):
-    face_cascade_path = './cascades/haarcascade_frontalcatface.xml'
+    face_cascade_path = './cascades/haarcascade_frontalface_default.xml'
 
     def __init__(self):
         self.video = cv2.VideoCapture(0)
@@ -32,12 +32,11 @@ class VideoCamera(object):
         faces = cascade.detectMultiScale(frame)
 
         if faces !=[]:
-            print('***** Face detected!!!')
             for x, y, w, h in faces:
                 end_x = x + w
                 end_y = y + h
                 color = (0, 0, 255)
-                thickness = 2
+                thickness = 1
                 cv2.rectangle(frame, (x, y), (end_x, end_y), color, thickness)
 
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, redirect, url_for
+from flask import Flask, render_template, Response, redirect, url_for, request
 from camera import VideoCamera
 
 # app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
@@ -15,9 +15,10 @@ def test():
     return render_template('test.html')
 
 
-@app.route('/camera')
+@app.route('/camera', methods=['GET', 'POST'])
 def camera():
-    return render_template('index.html')
+
+    return render_template('index.html',request=request)
 
 
 def gen(camera):
@@ -33,5 +34,13 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/get_key')
+def get_key():
+    data = {
+        'request': 'request'
+    }
+    return Response(data)
+
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True)
+    app.run(host='127.0.0.1', debug=True, threaded=True)
