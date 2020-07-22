@@ -6,8 +6,11 @@
 
 <h1>Video Streaming Demonstration</h1>
 <img src="{{ url_for('video_feed') }}">
-{% if  request%}
-<p>{{request}}</p>
+
+{% if request.method == 'GET'%}
+<p>GET {{request}}</p>
+{% elif request.method == 'POST'%}
+<p>POST {{request}}</p>
 {% else %}
 <p>no request</p>
 {% endif %}

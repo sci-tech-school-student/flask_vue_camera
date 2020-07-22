@@ -1,8 +1,10 @@
-from flask import Flask, render_template, Response, redirect, url_for, request
+from flask import Flask, render_template, Response, redirect, url_for, request, jsonify, json
 from camera import VideoCamera
+from flask_cors import CORS, cross_origin
 
 # app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
@@ -15,10 +17,22 @@ def test():
     return render_template('test.html')
 
 
+@app.route('/get_request', methods=['GET', 'POST'])
+@cross_origin()
+def get_request():
+    data = request.method
+    print('***** {} request is coming'.format(data))
+    if request.method == 'POST':
+        dataDict = json.loads(request.data)
+        # print('***** {}'.format(dataDict))
+        data = dataDict['text']
+
+    return jsonify({'message': data})
+
+
 @app.route('/camera', methods=['GET', 'POST'])
 def camera():
-
-    return render_template('index.html',request=request)
+    return render_template('index.html', request=request)
 
 
 def gen(camera):
