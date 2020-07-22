@@ -29,21 +29,17 @@
 
 <script>
     import axios from 'axios';
-    // import router from '../router';
 
     export default {
         name: 'Camera',
         data() {
             return {
-                posts: [],
+                request: [],
                 formData: {
                     'text': '',
                     'key': '',
                 },
                 host_url: 'http://127.0.0.1:8888/get_request/',
-                host_url_param: this.host_url,
-                from_to: [],
-                param: '',
                 key: '',
                 keys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',]
             }
@@ -53,13 +49,12 @@
                 console.log(this.key);
                 let host_url_param = this.host_url + this.key
                 axios.get(host_url_param)
-                    .then(response => this.posts = response.data);
+                    .then(response => this.request = response.data);
             }
         },
         mounted() {
-            // console.log("route param : ", this.$route.params.key);
             axios.get(this.host_url)
-                .then(response => this.posts = response.data);
+                .then(response => this.request = response.data);
             console.log('request get succeeded');
 
             let self = this;
@@ -73,21 +68,18 @@
             window.addEventListener('keyup', function () {
                 self.key = ''
             });
-        }
-        ,
+        },
         methods: {
             submit: function () {
                 console.log('submit');
                 axios.post(this.host_url, this.formData)
                     .then(response => {
-                        this.posts = response.data;
+                        this.request = response.data;
                     })
                     .catch(error => {
                         console.log(error);
                     })
-            }
-            ,
-        }
-        ,
+            },
+        },
     }
 </script>

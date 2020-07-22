@@ -50,8 +50,6 @@ def get_key(key=None):
     data = {
         'request': 'request'
     }
-
-
     return Response(data)
 
 
