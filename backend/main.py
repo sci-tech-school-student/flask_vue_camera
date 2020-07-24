@@ -1,11 +1,16 @@
 from flask import Flask, render_template, Response, redirect, url_for, request, jsonify, json
 from camera import VideoCamera
 from flask_cors import CORS, cross_origin
-import RPi.GPIO as GPIO
+from dc_motor import Dc_motor, Motor_thread
+import threading
 
 # app = Flask(__name__, static_folder='../frontend/dist/static', template_folder='../frontend/dist')
 app = Flask(__name__)
 CORS(app)
+
+motor_thread = Motor_thread()
+
+print('***** Starting route')
 
 
 @app.route('/')
@@ -18,12 +23,12 @@ def index():
 @cross_origin()
 def get_request(key=None):
     data = request.method
-    print('***** {} request is coming'.format(key))
+    print('***** {} pushed'.format(key))
     if request.method == 'POST':
         dataDict = json.loads(request.data)
         print('***** {}'.format(dataDict))
         data = dataDict['text']
-
+    motor_thread.key_watcher(key)
     return jsonify({'message': key})
 
 
@@ -43,14 +48,6 @@ def gen(camera):
 def video_feed():
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-@app.route('/get_key/<key>')
-def get_key(key=None):
-    data = {
-        'request': 'request'
-    }
-    return Response(data)
 
 
 if __name__ == '__main__':

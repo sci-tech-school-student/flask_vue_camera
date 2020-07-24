@@ -3,11 +3,6 @@
         <img alt="Vue logo" src="../assets/logo.png">
         <h1>Vue Video Streaming Demonstration</h1>
         <img src="/video_feed" class="frame">
-        <!--        <ul>-->
-        <!--            <li v-for="post in posts" :key=post.id>-->
-        <!--                {{ post }}-->
-        <!--            </li>-->
-        <!--        </ul>-->
         <form v-on:submit.prevent="submit" name="key_form">
             <input type="text" v-model="key" placeholder="key input">
             <input type="text" v-model="formData.text" placeholder="text">
@@ -41,7 +36,9 @@
                 },
                 host_url: 'http://127.0.0.1:8888/get_request/',
                 key: '',
-                keys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',]
+                enabled_keys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+                    'a', 'd', 's', 'w',
+                    'r', 'b', 'h', 'm',]
             }
         },
         watch: {
@@ -59,8 +56,8 @@
 
             let self = this;
             window.addEventListener('keydown', function (ev) {
-                for (let i = 0; i < self.keys.length; i++) {
-                    if (self.keys[i] === ev.key) {
+                for (let i = 0; i < self.enabled_keys.length; i++) {
+                    if (self.enabled_keys[i] === ev.key) {
                         self.key = ev.key
                     }
                 }

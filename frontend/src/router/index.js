@@ -21,11 +21,11 @@ const routes = [
         name: 'Camera',
         component: Camera
     },
-    {
-        path: '/camera/:key',
-        name: 'Camera',
-        component: Camera
-    },
+    // {
+    //     path: '/camera/:key',
+    //     name: 'Camera',
+    //     component: Camera
+    // },
 ]
 
 const router = new VueRouter({
